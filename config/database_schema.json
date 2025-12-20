@@ -1,0 +1,14 @@
+{
+  "database": "athena_db_prod",
+  "type": "relational",
+  "tables": [
+    {
+      "name": "users",
+      "columns": ["id", "username", "password_hash", "role"]
+    },
+    {
+      "name": "inventory",
+      "columns": ["item_id", "sku", "quantity", "warehouse_loc"]
+    }
+  ]
+}
