@@ -1,0 +1,8 @@
+/* Component Styles */
+.table {
+    margin-top: 20px;
+}
+.text-success {
+    color: green;
+    font-weight: bold;
+}

@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './resource-list.component.html',
   styleUrls: ['./resource-list.component.css']
 })
-public class ResourceListComponent implements OnInit {
+export class ResourceListComponent implements OnInit {
   resources = [
     { name: 'Server-Alpha', type: 'Compute', status: 'Active' },
     { name: 'DB-Beta', type: 'Database', status: 'Migrating' }
