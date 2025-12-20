@@ -31,7 +31,7 @@ The platform separates concerns between a robust RESTful backend and a dynamic r
 
 ---
 
-## 🛠️ Technical Highlights (Resume Claims)
+## 🛠️ Technical Highlights
 
 ### ✅ Multi-Tenant Architecture
 The data model (`Resource.java`) includes a `tenantId` field, allowing a single instance of the application to securely serve multiple distinct organizations (Tenant-A, Tenant-B) while keeping their data isolated.
