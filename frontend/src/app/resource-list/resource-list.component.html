@@ -1,23 +1,36 @@
 <div class="container">
-  <h2>Enterprise Resource Dashboard</h2>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Resource Name</th>
-        <th>Type</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let resource of resources">
-        <td>{{ resource.name }}</td>
-        <td>{{ resource.type }}</td>
-        <td>
-          <span [class.text-success]="resource.status === 'Active'">
-            {{ resource.status }}
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="dashboard-card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2><i class="bi bi-cpu-fill"></i> Athena Command Center</h2>
+      <span class="text-muted small">Tenant: Global-Corp</span>
+    </div>
+
+    <table class="table table-hover table-borderless">
+      <thead>
+        <tr>
+          <th>Resource ID</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Latency</th> </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let resource of resources">
+          <td>
+            <strong>{{ resource.name }}</strong>
+            <div class="small text-muted" style="font-size: 0.7rem;">UUID: 5f4d-2a1c</div>
+          </td>
+          <td>{{ resource.type }}</td>
+          <td>
+            <span class="status-badge" 
+                  [ngClass]="{'status-active': resource.status === 'Active', 'status-migrating': resource.status === 'Migrating'}">
+              {{ resource.status }}
+            </span>
+          </td>
+          <td class="text-muted">
+            <span style="font-family: monospace;">12ms</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

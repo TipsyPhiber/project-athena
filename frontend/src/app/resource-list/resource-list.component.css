@@ -1,8 +1,62 @@
-/* Component Styles */
-.table {
-    margin-top: 20px;
+/* The Glass Card Container */
+.dashboard-card {
+    background: rgba(31, 40, 51, 0.7); /* Semi-transparent dark blue */
+    backdrop-filter: blur(10px);       /* Blur effect behind it */
+    border: 1px solid #45a29e;         /* Neon Cyan Border */
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(69, 162, 158, 0.2); /* Cyan Glow */
+    margin-top: 50px;
+    padding: 30px;
 }
-.text-success {
-    color: green;
+
+/* Header Styling */
+h2 {
+    color: #66fcf1; /* Bright Neon Cyan */
+    text-transform: uppercase;
+    letter-spacing: 2px;
     font-weight: bold;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #45a29e;
+    padding-bottom: 10px;
+}
+
+/* Table Overrides */
+.table {
+    color: #c5c6c7;
+    margin-top: 10px;
+}
+.table thead th {
+    border-bottom: 1px solid #66fcf1;
+    color: #66fcf1;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+.table td {
+    border-bottom: 1px solid #1f2833;
+    vertical-align: middle;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Active = Green Glow */
+.status-active {
+    background-color: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+    border: 1px solid #28a745;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.2);
+}
+
+/* Migrating = Orange/Yellow Glow */
+.status-migrating {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid #ffc107;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.2);
 }
