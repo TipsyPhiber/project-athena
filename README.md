@@ -5,6 +5,15 @@
 **Project Athena** is a comprehensive multi-tenant resource management system designed to modernize legacy infrastructure. It serves as a centralized "Command Center" for tracking enterprise assets (Servers, Databases, Licenses) using a decoupled microservices architecture.
 
 ---
+## 🔧 Prerequisites
+Before running this project, ensure you have the following installed:
+
+* **Java Development Kit (JDK) 21:** Required to compile the Spring Boot backend.
+    * *Check version:* `java -version`
+* **Node.js (v18+) & NPM:** Required to build the Angular frontend.
+    * *Check version:* `node -v`
+* **Maven:** Build automation tool for Java.
+    * *Check version:* `mvn -version`
 
 ## 🚀 Quick Start Guide
 
