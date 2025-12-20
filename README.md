@@ -3,7 +3,7 @@
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Java](https://img.shields.io/badge/Java-17-orange) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-green) ![Angular](https://img.shields.io/badge/Angular-16-red) ![License](https://img.shields.io/badge/license-MIT-blue)
 
 **Project Athena** is a comprehensive multi-tenant resource management system designed to modernize legacy infrastructure. It serves as a centralized "Command Center" for tracking enterprise assets (Servers, Databases, Licenses) using a decoupled microservices architecture.
-
+![Dashboard Demo](./demo.png)
 ---
 ## 🔧 Prerequisites
 Before running this project, ensure you have the following installed:
