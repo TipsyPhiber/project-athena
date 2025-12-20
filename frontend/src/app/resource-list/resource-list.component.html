@@ -1,0 +1,23 @@
+<div class="container">
+  <h2>Enterprise Resource Dashboard</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Resource Name</th>
+        <th>Type</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let resource of resources">
+        <td>{{ resource.name }}</td>
+        <td>{{ resource.type }}</td>
+        <td>
+          <span [class.text-success]="resource.status === 'Active'">
+            {{ resource.status }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

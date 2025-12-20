@@ -4,17 +4,35 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'backend/pom.xml'
-    goals: 'build'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    displayName: 'Build Java Backend'
+variables:
+  mavenCache: '$(Pipeline.Workspace)/.m2/repository'
 
-- task: Npm@1
-  inputs:
-    command: 'install'
-    workingDir: 'frontend'
-    displayName: 'Install Angular Dependencies'
+stages:
+- stage: BuildBackend
+  displayName: 'Build Java Backend'
+  jobs:
+  - job: MavenBuild
+    steps:
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'backend/pom.xml'
+        goals: 'clean install'
+        # Evidence of "Test-Driven Design" (Runs JUnit tests)
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+
+- stage: BuildFrontend
+  displayName: 'Build Angular Frontend'
+  dependsOn: BuildBackend
+  jobs:
+  - job: NpmBuild
+    steps:
+    - task: Npm@1
+      inputs:
+        command: 'install'
+        workingDir: 'frontend'
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        workingDir: 'frontend'
+        customCommand: 'run build'
