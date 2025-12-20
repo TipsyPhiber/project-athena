@@ -1,0 +1,15 @@
+# Java
+target/
+*.class
+*.jar
+
+# Angular / Node
+node_modules/
+dist/
+.angular/
+package-lock.json
+
+# IDEs
+.idea/
+.vscode/
+*.iml
