@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Resource {
-    // Evidence of "Optimizing database interactions"
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +18,7 @@ public class Resource {
     private String name;
     private String type; // e.g., "Server", "Database", "License"
     private String status; // "ACTIVE", "DEPRECATED"
-    private String tenantId; // Evidence of "Multi-tenant architecture"
+    private String tenantId; 
 
     public Resource(String name, String type, String tenantId) {
         this.name = name;
