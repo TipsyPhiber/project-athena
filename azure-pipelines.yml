@@ -17,7 +17,6 @@ stages:
       inputs:
         mavenPomFile: 'backend/pom.xml'
         goals: 'clean install'
-        # Evidence of "Test-Driven Design" (Runs JUnit tests)
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
 

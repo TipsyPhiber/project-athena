@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-// Evidence of "Angular utilizing JavaScript"
 @Component({
   selector: 'app-resource-list',
   templateUrl: './resource-list.component.html',
@@ -15,7 +14,6 @@ public class ResourceListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // In a real app, this would call the Java REST API
     console.log('Fetching multi-tenant resources...');
   }
 }

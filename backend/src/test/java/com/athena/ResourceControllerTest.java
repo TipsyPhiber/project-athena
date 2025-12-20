@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-// Evidence of "Test-Driven Design (TDD) methodologies"
 public class ResourceControllerTest {
 
     @Test
