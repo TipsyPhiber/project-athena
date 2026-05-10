@@ -1,124 +1,82 @@
-# 🏛️ Project Athena: Enterprise Resource Platform
+# Project Athena
 
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Java](https://img.shields.io/badge/Java-17-orange) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-green) ![Angular](https://img.shields.io/badge/Angular-16-red) ![License](https://img.shields.io/badge/license-MIT-blue)
+A small resource-tracking dashboard: a Spring Boot REST API serving an in-memory list of resources, and an Angular SPA that displays them.
 
-**Project Athena** is a comprehensive multi-tenant resource management system designed to modernize legacy infrastructure. It serves as a centralized "Command Center" for tracking enterprise assets (Servers, Databases, Licenses) using a decoupled microservices architecture.
 ![Dashboard Demo](./demo.png)
----
-## 🔧 Prerequisites
-Before running this project, ensure you have the following installed:
 
-* **Java Development Kit (JDK) 21:** Required to compile the Spring Boot backend.
-    * *Check version:* `java -version`
-* **Node.js (v18+) & NPM:** Required to build the Angular frontend.
-    * *Check version:* `node -v`
-* **Maven:** Build automation tool for Java.
-    * *Check version:* `mvn -version`
+## What it actually does
 
-## 🚀 Quick Start Guide
+- Backend exposes `GET /api/v1/resources` and `POST /api/v1/resources`, plus a `GET /api/status` health probe.
+- Resources are held in an in-memory list owned by `ResourceService`. Restarting the server resets to two seed rows.
+- Frontend fetches the list on load via `HttpClient` and renders it in a styled table.
 
-Follow these steps to get the application running in **Simulation Mode** on your local machine.
+This is a demo, not a production ERP. There is no database, no authentication, no multi-tenancy enforcement — `tenantId` is just a string field.
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/TipsyPhiber/project-athena.git
-cd project-athena
-```
+## Prerequisites
 
-### 2. Start the Backend API (Java)
-The backend runs on **Spring Boot** and serves the REST API.
+- JDK 21
+- Node.js 18+ and npm
+
+## Run it
+
+**Backend** (port 9090):
+
 ```bash
 cd backend
-mvn spring-boot:run
+./mvnw spring-boot:run   # or: mvn spring-boot:run if you have Maven installed
 ```
-* **Status:** API will be available at `http://localhost:8080`.
-* **Note:** By default, this runs with an in-memory database for rapid testing.
 
-### 3. Start the Frontend Dashboard (Angular)
-Open a **new terminal window** to launch the user interface.
+**Frontend** (port 4200) — in a second terminal:
+
 ```bash
 cd frontend
 npm install
 npm start
 ```
-* **Status:** The UI will launch at `http://localhost:4200`.
-* **Action:** Open your browser to view the dashboard.
 
----
+Open `http://localhost:4200`. The page will show "Unable to load resources" until the backend is up.
 
-## 🔌 Production Integration Guide
+## Module layout
 
-**Note:** The default configuration runs in "Dev/Simulation Mode" using mock data to demonstrate UI capabilities without requiring a local database server.
+The backend follows one-idea-per-module:
 
-To deploy this application to a live **Production Environment** (e.g., AWS, Azure), apply the following configurations:
-
-### Step 1: Connect a Real Database
-Locate `backend/src/main/resources/application.properties` and update the datasource to point to your live PostgreSQL cluster:
-
-```properties
-# Production Database Connection
-spring.datasource.url=jdbc:postgresql://<YOUR_DB_HOST>:5432/athena_db
-spring.datasource.username=admin_user
-spring.datasource.password=${DB_PASSWORD_ENV_VAR}
-
-# Auto-update Schema
-spring.jpa.hibernate.ddl-auto=update
+```
+backend/src/main/java/com/athena/
+├── Application.java                  # bootstrap only
+├── controller/
+│   ├── HealthController.java         # /api/status
+│   └── ResourceController.java       # HTTP layer for resources
+├── model/
+│   └── Resource.java                 # plain data class
+└── service/
+    └── ResourceService.java          # in-memory store
 ```
 
-### Step 2: Enable JPA Repositories
-In `ResourceController.java`, uncomment the Repository injection to disable mock data and enable live SQL persistence:
+Frontend mirrors the same split:
 
-```java
-// @Autowired
-// private ResourceRepository repository;
-
-// Change getAllResources() to return repository.findAll();
+```
+frontend/src/app/
+├── app.module.ts
+├── app.component.ts
+├── resource.model.ts                 # type
+├── resource.service.ts               # HTTP client
+└── resource-list/                    # presentation only
 ```
 
----
+The controller does not own data, the service does not know about HTTP, the component does not know how the data is fetched. Each module has one reason to change.
 
-## 🏗️ System Architecture
+## Tests
 
-The platform separates concerns between a robust RESTful backend and a dynamic reactive frontend.
+`backend/src/test/java/com/athena/ResourceControllerTest.java` covers the controller and service. Run with:
 
-### 1. Backend: The Core Engine (Java & Spring Boot)
-* **Technology:** Java 17, Spring Web, Spring Data JPA.
-* **Role:** Handles business logic, data persistence, and tenant isolation.
-* **Key Feature:** Implements **RESTful APIs** that exchange strict JSON payloads, ensuring standardized communication with client applications.
+```bash
+cd backend && mvn test
+```
 
-### 2. Frontend: The User Interface (Angular)
-* **Technology:** Angular 16, TypeScript, Bootstrap.
-* **Role:** Renders a Single Page Application (SPA) for dynamic user interaction.
-* **Key Feature:** Uses **Reactive Forms** and component-based architecture to manage state without reloading the page.
+## CI
 
-### 3. CI/CD Automation (Azure DevOps)
-* **Configuration:** Defined in `azure-pipelines.yml`.
-* **Workflow:**
-    1.  **Commit:** Pushes to `main` trigger the pipeline.
-    2.  **Test:** Maven automatically runs JUnit tests (TDD validation).
-    3.  **Build:** Compiles the Java JAR and optimizes Angular static assets.
+`azure-pipelines.yml` runs `mvn test` on push to `main`.
 
----
+## License
 
-## 🛠️ Technical Highlights
-
-This project demonstrates the following engineering capabilities:
-
-* **Multi-Tenant Architecture:** The data model (`Resource.java`) includes a `tenantId` field, allowing a single instance to securely serve multiple organizations.
-* **Test-Driven Design (TDD):** Business logic is validated using **JUnit 5**. The CI/CD pipeline enforces quality gates by rejecting any commit that fails the test suite.
-* **Modern UI/UX:** The dashboard features a "Dark Mode" Glassmorphism design with real-time status indicators (Active vs. Migrating).
-
----
-
-## 📂 Repository Structure
-* `/backend` - **Spring Boot Application**
-    * `src/main/java/com/athena/controller`: REST API Endpoints.
-    * `src/main/java/com/athena/model`: JPA Entities (Database Schema).
-* `/frontend` - **Angular SPA**
-    * `src/app/resource-list`: TypeScript components and HTML templates.
-* `azure-pipelines.yml` - **CI/CD Configuration**
-
----
-
-## 🛡️ License
-Distributed under the MIT License. See `LICENSE` for more information.
+MIT — see `LICENSE`.

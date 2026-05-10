@@ -1,34 +1,42 @@
 <div class="container">
   <div class="dashboard-card">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2><i class="bi bi-cpu-fill"></i> Athena Command Center</h2>
-      <span class="text-muted small">Tenant: Global-Corp</span>
+      <h2>Athena Command Center</h2>
+      <span class="text-muted small">Source: {{ 'http://localhost:9090/api/v1/resources' }}</span>
     </div>
 
-    <table class="table table-hover table-borderless">
+    <div *ngIf="loading" class="text-muted">Loading resources&hellip;</div>
+    <div *ngIf="error" class="status-badge status-migrating">{{ error }}</div>
+
+    <table *ngIf="!loading && !error" class="table table-hover table-borderless">
       <thead>
         <tr>
-          <th>Resource ID</th>
+          <th>Resource</th>
           <th>Type</th>
+          <th>Tenant</th>
           <th>Status</th>
-          <th>Latency</th> </tr>
+        </tr>
       </thead>
       <tbody>
         <tr *ngFor="let resource of resources">
           <td>
             <strong>{{ resource.name }}</strong>
-            <div class="small text-muted" style="font-size: 0.7rem;">UUID: 5f4d-2a1c</div>
+            <div class="small text-muted" style="font-size: 0.7rem;">ID: {{ resource.id }}</div>
           </td>
           <td>{{ resource.type }}</td>
+          <td>{{ resource.tenantId }}</td>
           <td>
-            <span class="status-badge" 
-                  [ngClass]="{'status-active': resource.status === 'Active', 'status-migrating': resource.status === 'Migrating'}">
+            <span class="status-badge"
+                  [ngClass]="{
+                    'status-active': resource.status === 'ACTIVE',
+                    'status-migrating': resource.status !== 'ACTIVE'
+                  }">
               {{ resource.status }}
             </span>
           </td>
-          <td class="text-muted">
-            <span style="font-family: monospace;">12ms</span>
-          </td>
+        </tr>
+        <tr *ngIf="resources.length === 0">
+          <td colspan="4" class="text-muted">No resources returned by the API.</td>
         </tr>
       </tbody>
     </table>
